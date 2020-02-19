@@ -103,3 +103,31 @@ class Point < Tuple
     super(x, y, z, 1)
   end
 end
+
+class Color < Tuple
+  def initialize(r, g, b)
+    super(r, g, b, 0)
+  end
+
+  def red
+    @x
+  end
+
+  def green
+    @y
+  end
+
+  def blue
+    @z
+  end
+
+  def *(other)
+    unless other.is_a?(Color)
+      return super
+    end
+    r = self.red * other.red
+    g = self.green * other.green
+    b = self.blue * other.blue
+    Color.new(r, g, b)
+  end
+end
