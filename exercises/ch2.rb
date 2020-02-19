@@ -1,5 +1,5 @@
 require '../lib/tuple'
-require '../lib/canvas'
+require '../lib/png_canvas'
 
 class Projectile
   attr_reader :position, :velocity
@@ -29,9 +29,9 @@ end
 environment = Environment.new(Vector.new(0, -0.1, 0),
                               Vector.new(-0.01, 0, 0))
 projectile = Projectile.new(Point.new(0, 0, 0),
-                            Vector.new(1.0, 2, 0).normalize * 15,
+                            Vector.new(1.0, 2, 0).normalize * 10,
                             environment)
-canvas = Canvas.new(500, 500)
+canvas = PNG_Canvas.new(500, 500)
 red = Color.new(1.0, 0.0, 0.0)
 
 125.times do
@@ -41,4 +41,4 @@ red = Color.new(1.0, 0.0, 0.0)
                      red)
 end
 
-puts canvas.canvas_to_ppm
+canvas.write_png("test.png")
