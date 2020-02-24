@@ -4,11 +4,10 @@ class Matrix
   attr_reader :data
 
   def self.from_data_table(data)
-    height = data.length
-    width = data[0].length
-    m = Matrix.new(height, width)
-    width.times do |x|
-      height.times do |y|
+    size = data.length
+    m = Matrix.new(size)
+    size.times do |x|
+      size.times do |y|
         m[x, y] = data[x][y].to_f
       end
     end
@@ -16,7 +15,7 @@ class Matrix
   end
 
   def self.identity
-    m = Matrix.new(4, 4)
+    m = Matrix.new(4)
     m[0,0] = 1
     m[1,1] = 1
     m[2,2] = 1
@@ -24,24 +23,23 @@ class Matrix
     return m
   end
 
-  def initialize(width, height)
-    @height = height
-    @width = width
-    @data = Array.new(@width * @height, 0)
+  def initialize(size)
+    @size = size
+    @data = Array.new(size * size, 0)
   end
 
   def [](x, y)
-    @data[(y * @width) + x]
+    @data[(y * @size) + x]
   end
 
   def []=(x, y, val)
-    @data[(y * @width) + x] = val
+    @data[(y * @size) + x] = val
   end
 
   def ==(other)
     @data == other.data
-    @width.times do |row|
-      @height.times do |col|
+    @size.times do |row|
+      @size.times do |col|
         return false unless close_enough(self[row, col], other[row, col])
       end
     end
@@ -52,11 +50,11 @@ class Matrix
     if b.is_a?(Tuple)
       return tuple_mult(b)
     end
-    m = Matrix.new(@width, @height)
-    @width.times do |row|
-      @height.times do |col|
+    m = Matrix.new(@size)
+    @size.times do |row|
+      @size.times do |col|
         val = 0
-        @width.times do |x|
+        @size.times do |x|
           val += self[row, x] * b[x, col]
         end
         m[row, col] = val
@@ -68,9 +66,9 @@ class Matrix
   def tuple_mult(t)
     b = [t.x, t.y, t.z, t.w]
     m = Array.new(4)
-    @width.times do |row|
+    @size.times do |row|
       val = 0
-      @width.times do |x|
+      @size.times do |x|
         val += self[row, x] * b[x]
       end
       m[row] = val
@@ -79,9 +77,9 @@ class Matrix
   end
 
   def transpose
-    m = Matrix.new(@width, @height)
-    @width.times do |row|
-      @height.times do |col|
+    m = Matrix.new(@size)
+    @size.times do |row|
+      @size.times do |col|
         m[col, row] = self[row, col]
       end
     end
@@ -89,24 +87,23 @@ class Matrix
   end
 
   def determinant
-    size = @width
-    if size == 2
+    if @size == 2
       return (self[0,0] * self[1,1]) - (self[0,1] * self[1,0])
     end
     det = 0
-    size.times do |col|
+    @size.times do |col|
       det += self[0, col] * cofactor(0, col)
     end
     return det
   end
 
   def submatrix(skip_row, skip_col)
-    m = Matrix.new(@width - 1, @height - 1)
+    m = Matrix.new(@size - 1,)
     x = 0
-    @width.times do |row|
+    @size.times do |row|
       y = 0
       unless row == skip_row
-        @height.times do |col|
+        @size.times do |col|
           unless col == skip_col
             m[x, y] = self[row, col]
             y += 1
@@ -137,10 +134,10 @@ class Matrix
   def inverse
     return nil unless invertable?
 
-    m = Matrix.new(@width, @height)
+    m = Matrix.new(@size)
 
-    @width.times do |row|
-      @height.times do |col|
+    @size.times do |row|
+      @size.times do |col|
         c = cofactor(row, col)
         m[col, row] = c / determinant
       end
