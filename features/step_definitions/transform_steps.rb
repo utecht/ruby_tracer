@@ -1,4 +1,4 @@
-require 'transformation'
+require 'transform'
 require 'tuple'
 
 Given('transform ← translation\({float}, {float}, {float})') do |x, y, z|

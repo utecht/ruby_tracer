@@ -12,6 +12,12 @@ Scenario: Writing pixels to a canvas
   When write_pixel(c, 2, 3, red)
   Then pixel_at(c, 2, 3) = red
 
+Scenario: Writing pixels outside canvas prints error but continues
+  Given c ← canvas(10, 20)
+    And red ← color(1, 0, 0)
+  Then write_pixel(c, -2, 3, red) should not crash
+    And write_pixel(c, 20, 300, red) should not crash
+
 Scenario: Constructing the PPM header
   Given c ← canvas(5, 3)
   When ppm ← canvas_to_ppm(c)

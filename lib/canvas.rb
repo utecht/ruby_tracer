@@ -10,10 +10,18 @@ class Canvas
   end
 
   def write_pixel(x, y, color)
+    if x > @width or y > @height or x < 0 or y < 0
+      puts "#{x}, #{y} out of bounds"
+      return false
+    end
     @data[(y * @width) + x] = color
   end
 
   def pixel_at(x, y)
+    if x > @width or y > @height or x < 0 or y < 0
+      puts "#{x}, #{y} out of bounds"
+      return false
+    end
     @data[(y * @width) + x]
   end
 

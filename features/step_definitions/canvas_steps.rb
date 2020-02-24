@@ -72,3 +72,8 @@ end
 Then('ppm ends with a newline character') do
   expect(@ppm.end_with?("\n")).to be true
 end
+
+Then('write_pixel\(c, {int}, {int}, red) should not crash') do |int, int2|
+  expect{
+    @c.write_pixel(int, int2, @red)}.not_to raise_error
+end

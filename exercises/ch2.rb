@@ -41,4 +41,4 @@ red = Color.new(1.0, 0.0, 0.0)
                      red)
 end
 
-canvas.write_png("test.png")
+canvas.write_png("arc.png")
