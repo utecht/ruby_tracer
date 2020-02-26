@@ -17,14 +17,14 @@ class Sphere
 
     discriminant = (b ** 2) - 4 * a * c
 
-    return Array.new if discriminant < 0
+    return Intersections.new if discriminant < 0
     t1 = (-b - Math.sqrt(discriminant)) / (2 * a)
     t2 = (-b + Math.sqrt(discriminant)) / (2 * a)
     Intersections.new(Intersection.new(t1, self), Intersection.new(t2, self))
   end
 
   def set_transform(t)
-    @transform *= t
+    @transform = t * @transform
   end
 end
 

@@ -33,7 +33,7 @@ class Matrix
   end
 
   def []=(x, y, val)
-    @data[(y * @size) + x] = val
+    @data[(y * @size) + x] = val.to_f
   end
 
   def ==(other)

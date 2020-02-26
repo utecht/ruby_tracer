@@ -15,6 +15,7 @@ class Transform
   end
 
   def self.scaling(x, y, z)
+    raise RuntimeError if x == 0 or y == 0 or z == 0
     @matrix = Matrix.new(4)
     @matrix[0, 0] = x
     @matrix[1, 1] = y
