@@ -195,3 +195,21 @@ end
 Then('a1 + a2 = tuple\({float}, {float}, {float}, {int})') do |x, y, z, w|
   expect(@a1 + @a2).to eq Tuple.new(x, y, z, w)
 end
+
+Given('n ← vector\({float}, {float}, {float})') do |x, y, z|
+  @n = Vector.new(x, y, z)
+end
+
+When('r ← reflect\(v, n)') do
+  @r = @v.reflect(@n)
+end
+
+Then('r = vector\({float}, {float}, {float})') do |x, y, z|
+  expect(@r).to eq Vector.new(x, y, z)
+end
+
+Given('n ← vector\(√2\/{float}, √2\/{float}, {float})') do |xi, yi, z|
+  x = Math.sqrt(2) / xi
+  y = Math.sqrt(2) / yi
+  @n = Vector.new(x, y, z)
+end

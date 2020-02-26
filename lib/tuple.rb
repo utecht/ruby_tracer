@@ -5,7 +5,7 @@ def close_enough(a, b)
 end
 
 class Tuple
-  attr_reader :x, :y, :z, :w
+  attr_accessor :x, :y, :z, :w
 
   def initialize(x, y, z, w)
     @x = x
@@ -45,6 +45,10 @@ class Tuple
     y = @z * b.x - @x * b.z
     z = @x * b.y - @y * b.x
     Vector.new(x, y, z)
+  end
+
+  def reflect(normal)
+    self - normal * 2 * self.dot(normal)
   end
 
   def +(other)
@@ -105,6 +109,10 @@ class Point < Tuple
 end
 
 class Color < Tuple
+  def self.Black
+    Color.new(0, 0, 0)
+  end
+
   def initialize(r, g, b)
     super(r, g, b, 0)
   end

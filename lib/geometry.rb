@@ -1,10 +1,13 @@
 require_relative './matrix'
+require_relative './material'
 
 class Sphere
   attr_reader :transform
+  attr_accessor :material
 
   def initialize
     @transform = Matrix.identity
+    @material = Material.new
   end
 
   def intersect(ray)
@@ -25,6 +28,14 @@ class Sphere
 
   def set_transform(t)
     @transform = t * @transform
+  end
+
+  def normal_at(point)
+    object_point = @transform.inverse * point
+    object_normal = object_point - Point.new(0, 0, 0)
+    world_normal = @transform.inverse.transpose * object_normal
+    world_normal.w = 0.0
+    return world_normal.normalize
   end
 end
 

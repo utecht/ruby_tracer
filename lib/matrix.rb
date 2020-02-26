@@ -25,7 +25,7 @@ class Matrix
 
   def initialize(size)
     @size = size
-    @data = Array.new(size * size, 0)
+    @data = Array.new(size * size, 0.0)
   end
 
   def [](x, y)
