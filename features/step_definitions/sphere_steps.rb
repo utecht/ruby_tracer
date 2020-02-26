@@ -1,4 +1,6 @@
 require 'geometry'
+require 'matrix'
+require 'transform'
 
 Given(/s ← sphere\(\)/) do
   @s = Sphere.new()
@@ -17,35 +19,36 @@ Then('xs[{int}] = {float} And xs[{int}] = {float}') do |int, float, int2, float2
   expect(@xs[int2]).to eq float2
 end
 
-When('i ← intersection\({float}, s)') do |float|
-  @i = Intersection.new(float, @s)
+Then('s.transform = identity_matrix') do
+  expect(@s.transform).to eq Matrix.identity
 end
 
-Then('i.t = {float}') do |float|
-  expect(@i.t).to eq float
+Given('t ← translation\({float}, {float}, {float})') do |x, y, z|
+  @t = Transform.translation(x, y, z)
 end
 
-Then('i.object = s') do
-  expect(@i.object).to eq @s
+When('set_transform\(s, t)') do
+  @s.set_transform(@t)
 end
 
-Given('i1 ← intersection\({float}, s)') do |float|
-  @i1 = Intersection.new(float, @s)
+Then('s.transform = t') do
+  expect(@s.transform).to eq @t
 end
 
-Given('i2 ← intersection\({float}, s)') do |float|
-  @i2 = Intersection.new(float, @s)
-end
-
-When('xs ← intersections\(i1, i2)') do
-  @xs = Intersections.new(@i1, @i2)
-end
-
-Then('xs[{int}].t = {float} And xs[{int}].t = {float}') do |int, float, int2, float2|
+Then('xs[{int}].t = {float}') do |int, float|
   expect(@xs[int].t).to eq float
-  expect(@xs[int2].t).to eq float2
 end
 
-Then('xs[{int}].object = s') do |int|
-  expect(@xs[int].object).to eq @s
+When(/set_transform\(s, translation\(([^,]+), ([^,]+), ([^,]+)\)\)/) do |sx, sy, sz|
+  x = sx.to_f
+  y = sy.to_f
+  z = sz.to_f
+  @s.set_transform(Transform.translation(x, y, z))
+end
+
+When(/set_transform\(s, scaling\(([^,]+), ([^,]+), ([^,]+)\)\)/) do |sx, sy, sz|
+  x = sx.to_f
+  y = sy.to_f
+  z = sz.to_f
+  @s.set_transform(Transform.scaling(x, y, z))
 end

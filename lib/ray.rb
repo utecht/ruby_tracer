@@ -12,4 +12,10 @@ class Ray
     @origin + @direction * t
   end
 
+  def transform(t)
+    new_origin = t * @origin
+    new_direction = t * @direction
+    Ray.new(new_origin, new_direction)
+  end
+
 end
