@@ -141,3 +141,35 @@ end
 When('p4 ← C * p3') do
   @p4 = @C * @p3
 end
+
+Given('from ← point\({float}, {float}, {float})') do |x, y, z|
+  @from = Point.new(x, y, z)
+end
+
+Given('to ← point\({float}, {float}, {float})') do |x, y, z|
+  @to = Point.new(x, y, z)
+end
+
+Given('up ← vector\({float}, {float}, {float})') do |x, y, z|
+  @up = Vector.new(x, y, z)
+end
+
+When('t ← view_transform\(from, to, up)') do
+  @t = Transform.view_transform(@from, @to, @up)
+end
+
+Then('t = identity_matrix') do
+  expect(@t).to eq Matrix.identity
+end
+
+Then('t = scaling\({float}, {float}, {float})') do |x, y, z|
+  expect(@t).to eq Transform.scaling(x, y, z)
+end
+
+Then('t = translation\({float}, {float}, {float})') do |x, y, z|
+  expect(@t).to eq Transform.translation(x, y, z)
+end
+
+Then('t is the following 4x4 matrix:') do |table|
+  expect(@t).to eq Matrix.from_data_table(table.raw)
+end

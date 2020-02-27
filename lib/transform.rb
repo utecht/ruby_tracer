@@ -71,4 +71,22 @@ class Transform
     @matrix[3, 3] = 1
     return @matrix
   end
+
+  def self.view_transform(from, to, up)
+    @matrix = Matrix.new(4)
+    forward = (to - from).normalize
+    left = forward.cross(up.normalize)
+    true_up = left.cross(forward)
+    @matrix[0, 0] = left.x
+    @matrix[0, 1] = left.y
+    @matrix[0, 2] = left.z
+    @matrix[1, 0] = true_up.x
+    @matrix[2, 0] = -forward.x
+    @matrix[1, 1] = true_up.y
+    @matrix[2, 1] = -forward.y
+    @matrix[1, 2] = true_up.z
+    @matrix[2, 2] = -forward.z
+    @matrix[3, 3] = 1
+    return @matrix * Transform.translation(-from.x, -from.y, -from.z)
+  end
 end

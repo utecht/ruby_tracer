@@ -6,9 +6,9 @@ class Matrix
   def self.from_data_table(data)
     size = data.length
     m = Matrix.new(size)
-    size.times do |x|
-      size.times do |y|
-        m[x, y] = data[x][y].to_f
+    size.times do |row|
+      size.times do |col|
+        m[row, col] = data[row][col].to_f
       end
     end
     return m
@@ -28,16 +28,15 @@ class Matrix
     @data = Array.new(size * size, 0.0)
   end
 
-  def [](x, y)
-    @data[(y * @size) + x]
+  def [](row, col)
+    @data[(row * @size) + col]
   end
 
-  def []=(x, y, val)
-    @data[(y * @size) + x] = val.to_f
+  def []=(row, col, val)
+    @data[(row * @size) + col] = val.to_f
   end
 
   def ==(other)
-    @data == other.data
     @size.times do |row|
       @size.times do |col|
         return false unless close_enough(self[row, col], other[row, col])
@@ -143,6 +142,17 @@ class Matrix
       end
     end
     return m
+  end
+
+  def print
+    if @size == 4
+      <<~MATRIX
+        #{self[0,0]} | #{self[0, 1]} | #{self[0, 2]} | #{self[0, 3]}
+        #{self[1,0]} | #{self[1, 1]} | #{self[1, 2]} | #{self[1, 3]}
+        #{self[2,0]} | #{self[2, 1]} | #{self[2, 2]} | #{self[2, 3]}
+        #{self[3,0]} | #{self[3, 1]} | #{self[3, 2]} | #{self[3, 3]}
+      MATRIX
+    end
   end
 
 end
