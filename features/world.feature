@@ -39,7 +39,8 @@ Scenario: Shading an intersection
 
 Scenario: Shading an intersection from the inside
   Given w ← default_world()
-    And w.light ← point_light(point(0, 0.25, 0), color(1, 1, 1))
+    And light ← point_light(point(0, 0.25, 0), color(1, 1, 1))
+    And w.light ← light
     And r ← ray(point(0, 0, 0), vector(0, 0, 1))
     And shape ← the second object in w
     And i ← intersection(0.5, shape)

@@ -53,9 +53,6 @@ end
 
 When('c ← shade_hit\(w, comps)') do
   @c = @w.shade_hit(@comps)
-  require 'pp'
-  puts pp @comps
-  puts pp @w
 end
 
 Then('c = color\({float}, {float}, {float})') do |r, g, b|
@@ -88,4 +85,8 @@ end
 
 Then('c = inner.material.color') do
   expect(@c).to eq @inner.material.color
+end
+
+Given('w.light ← light') do
+  @w.light = @light
 end
