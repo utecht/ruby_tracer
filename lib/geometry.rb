@@ -37,6 +37,10 @@ class Sphere
     world_normal.w = 0.0
     return world_normal.normalize
   end
+
+  def ==(other)
+    @transform == other.transform and @material == other.material
+  end
 end
 
 class Intersection
@@ -45,6 +49,10 @@ class Intersection
   def initialize(t, object)
     @t = t
     @object = object
+  end
+
+  def prepare_computations(ray)
+    Computations.new(@t, @object, ray)
   end
 
   def ==(other)
@@ -56,6 +64,7 @@ class Intersection
 end
 
 class Intersections
+  attr_reader :data
 
   def initialize(*intersections)
     @data = Array.new(intersections)
@@ -79,5 +88,23 @@ class Intersections
 
   def count
     @data.count
+  end
+end
+
+class Computations
+  attr_reader :t, :object, :point, :eyev, :normalv, :inside
+
+  def initialize(t, object, ray)
+    @t = t
+    @object = object
+    @point = ray.position(t)
+    @eyev = -ray.direction
+    @normalv = object.normal_at(@point)
+    if @normalv.dot(@eyev) < 0
+      @inside = true
+      @normalv = -@normalv
+    else
+      @inside = false
+    end
   end
 end

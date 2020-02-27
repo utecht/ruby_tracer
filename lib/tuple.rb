@@ -8,10 +8,10 @@ class Tuple
   attr_accessor :x, :y, :z, :w
 
   def initialize(x, y, z, w)
-    @x = x
-    @y = y
-    @z = z
-    @w = w
+    @x = x.to_f
+    @y = y.to_f
+    @z = z.to_f
+    @w = w.to_f
   end
 
   def point?

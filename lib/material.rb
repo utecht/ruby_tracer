@@ -33,4 +33,8 @@ class Material
     t = ambient + diffuse + specular
     Color.new(t.x, t.y, t.z)
   end
+
+  def ==(other)
+    @color == other.color and @ambient == other.ambient and @diffuse == other.diffuse and @specular == other.specular and @shininess == other.shininess
+  end
 end

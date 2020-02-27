@@ -10,7 +10,7 @@ require '../lib/png_canvas'
 origin = Point.new(0, 0, -5)
 wall_z = 10
 wall_size = 7.0
-canvas_pixels = 500
+canvas_pixels = 300
 pixel_size = wall_size / canvas_pixels
 half = wall_size / 2.0
 canvas = PNG_Canvas.new(canvas_pixels, canvas_pixels)

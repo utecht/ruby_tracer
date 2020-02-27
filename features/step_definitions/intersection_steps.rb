@@ -68,3 +68,43 @@ end
 Then('i = i4') do
   expect(@i).to eq @i4
 end
+
+Given(/shape ← sphere\(\)/) do
+  @shape = Sphere.new
+end
+
+Given('i ← intersection\({float}, shape)') do |float|
+  @i = Intersection.new(float, @shape)
+end
+
+When('comps ← prepare_computations\(i, r)') do
+  @comps = @i.prepare_computations(@r)
+end
+
+Then('comps.t = i.t') do
+  expect(@comps.t).to eq @i.t
+end
+
+Then('comps.object = i.object') do
+  expect(@comps.object).to eq @i.object
+end
+
+Then('comps.point = point\({float}, {float}, {float})') do |x, y, z|
+  expect(@comps.point).to eq Point.new(x, y, z)
+end
+
+Then('comps.eyev = vector\({float}, {float}, {float})') do |x, y, z|
+  expect(@comps.eyev).to eq Vector.new(x, y, z)
+end
+
+Then('comps.normalv = vector\({float}, {float}, {float})') do |x, y, z|
+  expect(@comps.normalv).to eq Vector.new(x, y, z)
+end
+
+Then('comps.inside = false') do
+  expect(@comps.inside).to be false
+end
+
+Then('comps.inside = true') do
+  expect(@comps.inside).to be true
+end
